@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Pago - La Pinta</title>
-    <link rel="stylesheet" href="CSS/pago.css">
+    <!-- Enlace a la hoja de estilos usando el helper asset() -->
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/CSS/pago.css') }}">
+    <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-    <script src="JAVASCRIPT/Pago.js" defer></script>
+    <!-- Enlace al archivo JavaScript usando el helper asset() -->
+    <script src="{{ asset('menu_restaurante/JAVASCRIPT/Pago.js') }}" defer></script>
 </head>
+
 <body>
-    <img src="Imagenes/Home/LaPintaLogo.png" alt="Imagen">
+    <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Imagen">
     <h1>Formulario de Pago</h1>
     <form id="payment-form">
         <label for="name">Nombre Completo:</label>

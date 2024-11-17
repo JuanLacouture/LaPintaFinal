@@ -9,16 +9,26 @@ function toggleDesplegable() {
     overlay.style.display = "none";
     document.body.style.overflow = ""; // Permitir scroll nuevamente
   } else {
-    // Recargar el contenido del iframe cada vez que se abra el desplegable
-    iframe.src = "Desplegable.html";
-
+    // Mostrar el desplegable y notificar al iframe para actualizar el carrito
     sliderContainer.style.display = "block";
     overlay.style.display = "block";
     document.body.style.overflow = "hidden"; // Prevenir scroll en el fondo
+
+    // Envía un mensaje al iframe para actualizar los elementos del carrito
+    iframe.contentWindow.postMessage({ action: 'updateCart' }, '*');
   }
 }
+
+// Escuchar el mensaje para actualizar el carrito
+window.addEventListener('message', (event) => {
+  if (event.data.action === 'updateCart') {
+    renderCartItems();
+  }
+});
+
+
 function finalizarCompra() {
-  window.open("Carrito.html", "_blank");
+  window.open("{{ route('carrito') }}", "_blank");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -30,6 +40,11 @@ function renderCartItems() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
 
+  if (!cartItemsContainer) {
+    console.error("No se encontró el contenedor de elementos del carrito");
+    return;
+  }
+
   cartItemsContainer.innerHTML = ""; // Limpiar contenido previo
 
   if (cart.length === 0) {
@@ -40,22 +55,22 @@ function renderCartItems() {
       itemElement.classList.add("item");
 
       itemElement.innerHTML = `
-              <div class="item-details">
-                  <img src="{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}" alt="${item.name}">
-                  <div>
-                      <h2>${item.name}</h2>
-                  </div>
-              </div>
-              <div class="item-price">
-                  <p>${formatPrice(item.price * item.quantity)}</p>
-                  <div class="quantity-control">
-                      <button onclick="updateQuantity(${index}, -1)">-</button>
-                      <span>${item.quantity}</span>
-                      <button onclick="updateQuantity(${index}, 1)">+</button>
-                  </div>
-                  <a href="#" class="remove" onclick="removeItem(${index})">Eliminar</a>
-              </div>
-          `;
+        <div class="item-details">
+            <img src="{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}" alt="${item.name}">
+            <div>
+                <h2>${item.name}</h2>
+            </div>
+        </div>
+        <div class="item-price">
+            <p>${formatPrice(item.price * item.quantity)}</p>
+            <div class="quantity-control">
+                <button onclick="updateQuantity(${index}, -1)">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateQuantity(${index}, 1)">+</button>
+            </div>
+            <a href="#" class="remove" onclick="removeItem(${index})">Eliminar</a>
+        </div>
+      `;
       cartItemsContainer.appendChild(itemElement);
     });
 
@@ -69,7 +84,7 @@ function updateQuantity(index, delta) {
   if (cart[index].quantity + delta > 0) {
     cart[index].quantity += delta;
   } else {
-    cart.splice(index, 1); // Elimina el producto si la cantidad es 0
+    cart.splice(index, 1);
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -80,20 +95,17 @@ function removeItem(index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Notificar a la ventana principal para actualizar el carrito
+  window.parent.postMessage({ action: 'syncCart', cart }, '*');
+
+  // Renderizar el carrito en el iframe
   renderCartItems();
 }
 
 function formatPrice(amount) {
-  // Convierte el número a string y separa los enteros de los decimales
   const [integerPart, decimalPart] = amount.toFixed(2).split(".");
-
-  // Agrega puntos como separadores de miles en la parte entera
-  const formattedIntegerPart = integerPart.replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    "."
-  );
-
-  // Combina la parte entera y decimal con una coma como separador decimal
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return `$${formattedIntegerPart},${decimalPart}`;
 }
 
@@ -103,7 +115,6 @@ function updateSummary() {
   let taxes = total * 0.19;
   let subtotal = total - taxes;
 
-  // Usa la función formatPrice para formatear los precios
   document.getElementById("subtotal").innerText = formatPrice(subtotal);
   document.getElementById("tax").innerText = formatPrice(taxes);
   document.getElementById("total").innerText = formatPrice(total);

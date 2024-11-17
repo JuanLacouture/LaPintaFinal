@@ -107,7 +107,7 @@
             <div class="tradition-item">
             <img src="{{ asset('menu_restaurante/Imagenes/Index/Platano_mediana.png') }}" alt="Platano">
             <div class="overlay">
-                <h3><a href="Html/Carta.html">Plátano con Bocadillo y Queso</a></h3>
+                <h3><a href="{{ route('carta') }}">Plátano con Bocadillo y Queso</a></h3>
                 <p>Plátano maduro con bocadillo <br>y queso fresco.</p>
             </div>
         </div>

@@ -19,12 +19,13 @@
     <header>
         <div class="dropdown">
             <button class="dropbtn">
-                <img src="{{ asset('menu_restaurante/Imagenes/Index/Menu_Hamburgesa.png') }}" alt="Menu">
+                <img src="{{ asset('menu_restaurante/Imagenes/Menu_Hamburgesa.png') }}" alt="Menu">
             </button>
             <div class="dropdown-content">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('conocenos') }}">¿Quiénes Somos?</a>
                 <a href="{{ route('carta') }}">Carta</a>
+                <a href="{{ route('login') }}">Login</a>
             </div>
         </div>
         

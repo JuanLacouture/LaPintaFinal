@@ -70,11 +70,12 @@ async function enviarPedido() {
     }
 
     alert("¡Pedido enviado correctamente!");
-    window.location.href = "confirmacion.html";
+
+    window.location.href = "{{ route('confirmacion') }}";
   } catch (error) {
     console.error("Error al enviar el pedido:", error);
+    window.location.href = "{{ route('confirmacion') }}";
     }
-    window.location.href = "confirmacion.html";
 }
 
 // Manejador para el envío del formulario

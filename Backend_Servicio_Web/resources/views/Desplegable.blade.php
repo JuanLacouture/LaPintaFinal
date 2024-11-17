@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumen de Compra</title>
-    <link rel="stylesheet" href="CSS/desplegable.css">
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/CSS/desplegable.css') }}">
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/Scrollers.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-    <script src="JAVASCRIPT/desplegable.js" defer></script>
-    <link rel="stylesheet" href="Scrollers.css">
+    <script src="{{ asset('menu_restaurante/JAVASCRIPT/desplegable.js') }}" defer></script>
 </head>
+
 <body>
     <div id="desplegable-container" class="cart-summary">
         <h1>Resumen de compra</h1>

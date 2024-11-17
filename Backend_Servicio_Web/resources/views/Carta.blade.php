@@ -21,12 +21,13 @@
     <header>
         <div class="dropdown">
             <button class="dropbtn">
-                <img src="{{ asset('menu_restaurante/Imagenes/Index/Menu_Hamburgesa.png') }}" alt="Menu">
+                <img src="{{ asset('menu_restaurante/Imagenes/Menu_Hamburgesa.png') }}" alt="Menu">
             </button>
             <div class="dropdown-content">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('conocenos') }}">¿Quiénes Somos?</a>
                 <a href="{{ route('carrito') }}">Carrito de Compras</a>
+                <a href="{{ route('login') }}">Login</a>
             </div>
         </div>
         
@@ -84,7 +85,7 @@
         <div id="slider-container">
             <div id="slider-content">
                 <button class="close-btn" onclick="toggleDesplegable()">&times;</button>
-                <iframe src="" id="desplegable-iframe" frameborder="0"></iframe>
+                <iframe src="{{ route('desplegable') }}" id="desplegable-iframe" frameborder="0"></iframe>
             </div>
         </div>
     </main>

@@ -21,39 +21,39 @@ usernameInput.addEventListener('blur', handleBlur);
 passwordInput.addEventListener('focus', handleFocus);
 passwordInput.addEventListener('blur', handleBlur);
 
-// Función para validar el login y redirigir al administrador
-async function redirectToAdmin() {
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+// Función para manejar el login
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    // Verificar que los campos no estén vacíos
     if (username === '' || password === '') {
         alert('Por favor, ingresa tu usuario y contraseña.');
         return;
     }
 
     try {
-        // Hacer una solicitud POST al backend para validar el usuario
-        const response = await fetch('validate-login.php', {
+        const response = await fetch('/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({ username, password })
         });
 
+        if (!response.ok) {
+            throw new Error('Error en la solicitud al servidor.');
+        }
+
         const data = await response.json();
 
-        // Si la respuesta es exitosa, redirigir a admin.html
-        if (data.success) {
-            alert('Login exitoso. Redireccionando...');
-            sessionStorage.setItem('isLoggedIn', 'true');
-            window.location.href = 'admin.html';
+        if (data.message === 'Login exitoso') {
+            window.location.href = '/admin.html';
         } else {
-            alert('Usuario o contraseña incorrectos. Intenta de nuevo.');
+            alert(data.error || 'Credenciales incorrectas.');
         }
     } catch (error) {
-        console.error('Error al validar el login:', error);
+        console.error('Uncaught Error:', error);
         alert('Hubo un problema con el servidor. Intenta de nuevo más tarde.');
     }
 }

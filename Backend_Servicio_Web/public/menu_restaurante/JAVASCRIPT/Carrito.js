@@ -1,4 +1,3 @@
-// Carrito.js
 document.addEventListener("DOMContentLoaded", () => {
   const cartContainer = document.querySelector(".cart");
   const subtotalEl = document.getElementById("subtotal");
@@ -21,14 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cart.forEach((item) => {
-      const imageUrl = `/${item.image}`;
+      // Actualiza la ruta de la imagen con el helper asset()
+      const imageUrl = `{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}`;
       const cartItem = document.createElement("div");
       cartItem.className = "cart-item";
 
       cartItem.innerHTML = `
                 <div class="product">
                     <img class="lazyload" src="${imageUrl}" alt="${item.name}">
-
                     <p>${item.name}</p>
                 </div>
                 <div class="quantity-container">
@@ -98,16 +97,19 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("&");
 
-    const paymentWindow = window.open(
-      `Pago.html?${queryString}`,
-      "_blank",
-      "width=800,height=600"
-    );
-    if (paymentWindow) {
-      paymentWindow.focus();
-    } else {
-      alert("Permite las ventanas emergentes para continuar.");
-    }
+      const paymentUrl = `${window.location.origin}/pago?${queryString}`;
+
+      const paymentWindow = window.open(
+        paymentUrl,
+        "_blank",
+        "width=800,height=600"
+      );
+      if (paymentWindow) {
+        paymentWindow.focus();
+      } else {
+        alert("Permite las ventanas emergentes para continuar.");
+      }
+      
   }
 
   // Listeners
@@ -124,3 +126,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 });
+
