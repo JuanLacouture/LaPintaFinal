@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Pinta Login</title>
-    <link rel="icon" href="Imagenes/Home/LaPintaLogo.png" type="image/png">
+    <link rel="icon" href="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Questrial&family=Anton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/login.css">
+    <link rel="stylesheet" href="{{ asset('gestion_pedidos/CSS/login.css') }}">
 </head>
 <body>
     <a href="/index.html" class="back-btn">Atrás</a>
     <div class="login-container">
         <div class="login-header">
-            <img src="Imagenes/Home/LaPintaLogo.png" alt="Logo Restaurante" class="logo">
+            <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Logo Restaurante" class="logo">
             <h1>Bienvenido a La Pinta</h1>
         </div>
         <form action="/login" method="POST">
@@ -29,6 +29,5 @@
             <button type="submit" class="login-btn" onclick="redirectToAdmin()">Ingresar</button>
         </form>
     </div>
-    <script src="JAVASCRIPT/login.js"></script>
-</body>
+    <script src="{{ asset('gestion_pedidos/JAVASCRIPT/login.js') }}" defer></script></body>
 </html>

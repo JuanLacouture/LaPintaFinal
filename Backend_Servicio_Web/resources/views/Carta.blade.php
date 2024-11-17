@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Pinta - Menú</title>
-    <link rel="icon" href="Imagenes/Home/LaPintaLogo.png" type="la-pinta-logo">
-    <link rel="stylesheet" href="Header&Footer.css">
-    <link rel="stylesheet" href="CSS/carta.css">
-    <link rel="stylesheet" href="Scrollers.css">
-    <script src="JAVASCRIPT/api.js" defer></script>
-    <script src="JAVASCRIPT/desplegable.js" defer></script>
-    <script src="JAVASCRIPT/Carta.js" defer></script>
+    <link rel="icon" href="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/Header&Footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/CSS/carta.css') }}">
+    <link rel="stylesheet" href="{{ asset('menu_restaurante/Scrollers.css') }}">
+    <script src="{{ asset('menu_restaurante/js/api.js') }}" defer></script>
+    <script src="{{ asset('menu_restaurante/js/desplegable.js') }}" defer></script>
+    <script src="{{ asset('menu_restaurante/js/Carta.js') }}" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,97 +21,92 @@
     <header>
         <div class="dropdown">
             <button class="dropbtn">
-                <img src="Imagenes/Index/Menu_Hamburgesa.png" alt="Menu">
+                <img src="{{ asset('menu_restaurante/Imagenes/Index/Menu_Hamburgesa.png') }}" alt="Menu">
             </button>
             <div class="dropdown-content">
-                <a href="index.html">Home</a>
-                <a href="Conocenos2.html">¿Quiénes Somos?</a>
-                <a href="Carrito.html">Carrito de Compras</a>
+                <a href="{{ route('home') }}">Home</a>
+                <a href="{{ route('conocenos') }}">¿Quiénes Somos?</a>
+                <a href="{{ route('carrito') }}">Carrito de Compras</a>
             </div>
         </div>
         
-        <h1><a href="index.html">La Pinta</a></h1>
+        <h1><a href="{{ route('home') }}">La Pinta</a></h1>
         <div>
-            <a href="Carrito.html">
-                <img src="Imagenes/Index/carritoIcono.png" alt="Carrito">
+            <a href="{{ route('carrito') }}">
+                <img src="{{ asset('menu_restaurante/Imagenes/Index/carritoIcono.png') }}" alt="Carrito">
             </a>
         </div>
     </header>
-    
 
     <main class="main">
         <div class="Entradas">
             <h1>Entradas</h1>
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('entradas-carousel', -300)">&#9664;</button>
-                <div class="carousel" id="entradas-carousel">
-                </div>
+                <div class="carousel" id="entradas-carousel"></div>
                 <button class="carousel-button right" onclick="scrollCarousel('entradas-carousel', 300)">&#9654;</button>
             </div>
         </div>
-        
+
         <div class="Platos-Fuertes">
             <h1>Platos Fuertes</h1>
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('platos-fuertes-carousel', -300)">&#9664;</button>
-                <div class="carousel" id="platos-fuertes-carousel">
-                </div>
+                <div class="carousel" id="platos-fuertes-carousel"></div>
                 <button class="carousel-button right" onclick="scrollCarousel('platos-fuertes-carousel', 300)">&#9654;</button>
             </div>
-        </div>        
-    
+        </div>
+
         <div class="Bebidas">
             <h1>Bebidas</h1>
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('bebidas-carousel', -300)">&#9664;</button>
-                <div class="carousel" id="bebidas-carousel">
-                </div>
+                <div class="carousel" id="bebidas-carousel"></div>
                 <button class="carousel-button right" onclick="scrollCarousel('bebidas-carousel', 300)">&#9654;</button>
             </div>
-        </div>        
+        </div>
 
         <div class="Postres">
             <h1>Postres</h1>
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('postres-carousel', -300)">&#9664;</button>
-                <div class="carousel" id="postres-carousel">
-                </div>
+                <div class="carousel" id="postres-carousel"></div>
                 <button class="carousel-button right" onclick="scrollCarousel('postres-carousel', 300)">&#9654;</button>
             </div>
-        </div>      
+        </div>
+
         <div class="sticky-button" onclick="toggleDesplegable()">
-            <img src="Imagenes/Home/carritoIcono copy.png" alt="Carrito de Compras">
-        </div>  
+            <img src="{{ asset('menu_restaurante/Imagenes/Home/carritoIcono copy.png') }}" alt="Carrito de Compras">
+        </div>
 
         <div id="overlay" class="overlay" onclick="toggleDesplegable()"></div>
 
-<div id="slider-container">
-    <div id="slider-content">
-        <button class="close-btn" onclick="toggleDesplegable()">&times;</button>
-        <iframe src="" id="desplegable-iframe" frameborder="0"></iframe>
-    </div>
-</div>
+        <div id="slider-container">
+            <div id="slider-content">
+                <button class="close-btn" onclick="toggleDesplegable()">&times;</button>
+                <iframe src="" id="desplegable-iframe" frameborder="0"></iframe>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-left">
-                <a href="index.html" class="logo">
-                    <img src="Imagenes/Home/LaPintaLogo.png" alt="La Pinta Logo">
+                <a href="{{ route('home') }}" class="logo">
+                    <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="La Pinta Logo">
                 </a>
                 <div class="footer-address">
                     <p><strong>Dirección:</strong> Cra 69 #25B – 44 Of. 609,<br>Edificio World Business Port</p>
-        <p><strong>Teléfono:</strong> 601 7034250</p>
+                    <p><strong>Teléfono:</strong> 601 7034250</p>
                 </div>
             </div>
             <div class="footer-right">
-                <h2><a href="Conocenos2.html">Conócenos</a></h2> 
+                <h2><a href="{{ route('conocenos') }}">Conócenos</a></h2>
                 <div class="footer-social">
-                    <img src="Imagenes/Home/RedesSociales.png" alt="Redes Sociales">
+                    <img src="{{ asset('menu_restaurante/Imagenes/Home/RedesSociales.png') }}" alt="Redes Sociales">
                 </div>
             </div>
         </div>
     </footer>
-
 </body>
 </html>

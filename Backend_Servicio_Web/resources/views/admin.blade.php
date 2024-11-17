@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador - La Pinta</title>
-    <link rel="icon" href="{{ asset('../../Menu_Restaurante/images/logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" type="image/png">
     <!-- Bootstrap y FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('../../Frontend_Gestion_Pedidos/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('gestion_pedidos/CSS/admin.css') }}">
 </head>
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar text-white p-3">
-            <img src="{{ asset('../../Menu_Restaurante/images/logo.png') }}" alt="Logo La Pinta" class="logo-sidebar mb-4">
+            <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Logo La Pinta" class="logo-sidebar mb-4">
             <h2 class="mb-4">La Pinta Admin</h2>
             <ul class="nav flex-column">
                 <li class="nav-item mb-3"><a class="nav-link text-white active" href="admin.html"><i class="fas fa-clipboard-list"></i> Pedidos</a></li>

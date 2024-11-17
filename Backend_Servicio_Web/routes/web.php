@@ -1,17 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 // Ruta principal
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
-// Rutas para vistas específicas con nombres
+// Rutas de autenticación
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Ruta para admin con middleware de autenticación
 Route::get('/admin', function () {
     return view('admin');
-})->name('admin');
+})->name('admin')->middleware('auth');
 
+// Rutas para vistas específicas con nombres
 Route::get('/carrito', function () {
     return view('Carrito');
 })->name('carrito');
@@ -31,10 +38,6 @@ Route::get('/conocenos', function () {
 Route::get('/desplegable', function () {
     return view('Desplegable');
 })->name('desplegable');
-
-Route::get('/login', function () {
-    return view('Login');
-})->name('login');
 
 Route::get('/pago', function () {
     return view('Pago');

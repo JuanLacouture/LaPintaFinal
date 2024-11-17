@@ -21,16 +21,39 @@ usernameInput.addEventListener('blur', handleBlur);
 passwordInput.addEventListener('focus', handleFocus);
 passwordInput.addEventListener('blur', handleBlur);
 
-// Función para redirigir a la vista de administrador
-function redirectToAdmin() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+// Función para validar el login y redirigir al administrador
+async function redirectToAdmin() {
+    const username = usernameInput.value;
+    const password = passwordInput.value;
 
-    // Validación básica (puedes reemplazar con validaciones reales)
-    if (username !== '' && password !== '') {
-        // Redireccionar a la vista de administrador
-        window.location.href = 'admin.html';
-    } else {
+    // Verificar que los campos no estén vacíos
+    if (username === '' || password === '') {
         alert('Por favor, ingresa tu usuario y contraseña.');
+        return;
+    }
+
+    try {
+        // Hacer una solicitud POST al backend para validar el usuario
+        const response = await fetch('validate-login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        // Si la respuesta es exitosa, redirigir a admin.html
+        if (data.success) {
+            alert('Login exitoso. Redireccionando...');
+            sessionStorage.setItem('isLoggedIn', 'true');
+            window.location.href = 'admin.html';
+        } else {
+            alert('Usuario o contraseña incorrectos. Intenta de nuevo.');
+        }
+    } catch (error) {
+        console.error('Error al validar el login:', error);
+        alert('Hubo un problema con el servidor. Intenta de nuevo más tarde.');
     }
 }
