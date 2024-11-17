@@ -17,8 +17,8 @@
             <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Logo La Pinta" class="logo-sidebar mb-4">
             <h2 class="mb-4">La Pinta Admin</h2>
             <ul class="nav flex-column">
-                <li class="nav-item mb-3"><a class="nav-link text-white active" href="admin.html"><i class="fas fa-clipboard-list"></i> Pedidos</a></li>
-                <li class="nav-item mb-3"><a class="nav-link text-white" href="/index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item mb-3"><a class="nav-link text-white active" href="{{ route('admin') }}"><i class="fas fa-clipboard-list"></i> Pedidos</a></li>
+                <li class="nav-item mb-3"><a class="nav-link text-white" href="{{ route('login') }}" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
 
@@ -59,7 +59,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="JAVASCRIPT/admin.js"></script>
-    <script src="{{ asset('../../Frontend_Gestion_Pedidos/js/admin.js') }}"></script>
+    <script src="{{ asset('Frontend_Gestion_Pedidos/JAVASCRIPT/admin.js') }}"></script>
 </body>
 </html>

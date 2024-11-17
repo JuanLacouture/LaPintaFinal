@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('gestion_pedidos/CSS/login.css') }}">
 </head>
 <body>
-    <a href="/index.html" class="back-btn">Atrás</a>
+    <a href="{{ route('home') }}" class="back-btn">Atrás</a>
     <div class="login-container">
         <div class="login-header">
             <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Logo Restaurante" class="logo">
