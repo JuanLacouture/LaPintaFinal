@@ -10,7 +10,7 @@ function toggleDesplegable() {
     document.body.style.overflow = ""; // Permitir scroll nuevamente
   } else {
     // Recargar el contenido del iframe cada vez que se abra el desplegable
-    iframe.contentWindow.location.reload();
+    iframe.src = "Desplegable.html";
 
     sliderContainer.style.display = "block";
     overlay.style.display = "block";
@@ -18,7 +18,7 @@ function toggleDesplegable() {
   }
 }
 function finalizarCompra() {
-  window.open("/Html/Carrito.html", "_blank");
+  window.open("Carrito.html", "_blank");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
