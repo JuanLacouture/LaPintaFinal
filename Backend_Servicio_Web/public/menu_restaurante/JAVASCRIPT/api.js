@@ -1,4 +1,3 @@
-// api.js
 document.addEventListener("DOMContentLoaded", async () => {
   const apiUrl =
     "https://script.google.com/macros/s/AKfycbyVqwVBQd_b40z2-xsorSWeR06gVdEkIsgZKhwJZb2pzfm-D-y5FGnMGJoUjrZtUA2V/exec";
@@ -8,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!response.ok)
       throw new Error(`Error en la respuesta de la API: ${response.status}`);
     const data = await response.json();
-    console.log("Datos recibidos de la API:", data); // Verificar datos recibidos
+    console.log("Datos recibidos de la API:", data);
     renderPlates(data.data);
   } catch (error) {
     console.error("Error al cargar los datos:", error);
@@ -16,7 +15,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function renderPlates(plates) {
-  // Limpiar los carruseles antes de renderizar para evitar duplicados
   clearCarousel("entradas-carousel");
   clearCarousel("platos-fuertes-carousel");
   clearCarousel("bebidas-carousel");
@@ -27,14 +25,13 @@ function renderPlates(plates) {
   renderCategory(plates, "Bebidas", "bebidas-carousel");
   renderCategory(plates, "Postres", "postres-carousel");
 
-  // Inicializa el lazy loading después de renderizar todas las categorías
   initializeLazyLoading();
 }
 
 function clearCarousel(carouselId) {
   const carousel = document.getElementById(carouselId);
   if (carousel) {
-    carousel.innerHTML = ""; // Limpia el contenido del carrusel
+    carousel.innerHTML = "";
   }
 }
 
@@ -46,44 +43,44 @@ function renderCategory(plates, category, carouselId) {
   }
 
   const filteredPlates = plates.filter((plate) => plate.category === category);
-  console.log(`Platos filtrados para ${category}:`, filteredPlates); // Verificar los platos filtrados
+  console.log(`Platos filtrados para ${category}:`, filteredPlates);
 
   filteredPlates.forEach((plate) => {
     const plateElement = document.createElement("div");
     plateElement.classList.add("plato");
 
-    // Se establece la URL de la imagen y se agrega un atributo data-src para lazy loading
-    const imageUrl = `Imagenes/Menu/${plate.image}`;
+    // Usar el helper `asset()` para las imágenes
+    const imageUrl = `{{ asset('menu_restaurante/Imagenes/Menu') }}/${plate.image}`;
+    const cartIconUrl = `{{ asset('menu_restaurante/Imagenes/Menu/carrito-icono.png') }}`;
+
     plateElement.innerHTML = `
       <img class="lazyload" data-src="${imageUrl}" alt="${plate.name}">
       <p class="precio">${plate.price}</p>
       <p class="nombre"><strong>${plate.name}</strong></p>
       <p class="descripcion">${plate.description}</p>
       <button class="add-to-cart" onclick="toggleDesplegable()" 
-              data-product='{"image":"Imagenes${plate.image}","name":"${
+              data-product='{"image":"${imageUrl}","name":"${
       plate.name
     }","price":${parseFloat(plate.price.replace(/[^0-9.-]+/g, ""))}}'>
-        <img src="Imagenes/Menu/carrito-icono.png" alt="Carrito">
+        <img src="${cartIconUrl}" alt="Carrito">
         Añadir al carrito
       </button>
     `;
 
     carousel.appendChild(plateElement);
-    console.log(`Elemento añadido al carrusel ${carouselId}:`, plateElement); // Verificar la inserción del elemento
+    console.log(`Elemento añadido al carrusel ${carouselId}:`, plateElement);
   });
 }
 
-// Función para inicializar lazy loading usando Intersection Observer
 function initializeLazyLoading() {
   const lazyImages = document.querySelectorAll("img.lazyload");
 
   if ("IntersectionObserver" in window) {
-    // Usar IntersectionObserver si está disponible
     const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          img.src = img.dataset.src; // Carga la imagen desde el atributo data-src
+          img.src = img.dataset.src;
           img.classList.remove("lazyload");
           imageObserver.unobserve(img);
         }
@@ -94,7 +91,6 @@ function initializeLazyLoading() {
       imageObserver.observe(img);
     });
   } else {
-    // Fallback si IntersectionObserver no está disponible
     lazyImages.forEach((img) => {
       img.src = img.dataset.src;
       img.classList.remove("lazyload");

@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="{{ asset('menu_restaurante/Header&Footer.css') }}">
     <link rel="stylesheet" href="{{ asset('menu_restaurante/CSS/carta.css') }}">
     <link rel="stylesheet" href="{{ asset('menu_restaurante/Scrollers.css') }}">
-    <script src="{{ asset('menu_restaurante/js/api.js') }}" defer></script>
-    <script src="{{ asset('menu_restaurante/js/desplegable.js') }}" defer></script>
-    <script src="{{ asset('menu_restaurante/js/Carta.js') }}" defer></script>
+    <script src="{{ asset('menu_restaurante/JAVASCRIPT/api.js') }}" defer></script>
+    <script src="{{ asset('menu_restaurante/JAVASCRIPT/desplegable.js') }}" defer></script>
+    <script src="{{ asset('menu_restaurante/JAVASCRIPT/Carta.js') }}" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">

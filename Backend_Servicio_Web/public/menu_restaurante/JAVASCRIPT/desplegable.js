@@ -41,7 +41,7 @@ function renderCartItems() {
 
       itemElement.innerHTML = `
               <div class="item-details">
-                  <img src="Imagenes/Menu/${item.image}" alt="${item.name}">
+                  <img src="{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}" alt="${item.name}">
                   <div>
                       <h2>${item.name}</h2>
                   </div>

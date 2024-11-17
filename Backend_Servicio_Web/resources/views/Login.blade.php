@@ -18,6 +18,7 @@
             <h1>Bienvenido a La Pinta</h1>
         </div>
         <form action="/login" method="POST">
+            @csrf
             <div class="input-group">
                 <label for="username">Usuario:</label>
                 <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required>
