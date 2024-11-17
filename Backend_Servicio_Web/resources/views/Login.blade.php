@@ -18,7 +18,7 @@
             <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Logo Restaurante" class="logo">
             <h1>Bienvenido a La Pinta</h1>
         </div>
-        <form action="/login" method="POST">
+        <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="input-group">
                 <label for="username">Usuario:</label>

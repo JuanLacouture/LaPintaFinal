@@ -10,13 +10,12 @@ Route::get('/', function () {
 
 // Rutas de autenticación
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::post('/login', [AuthController::class, 'login']);
 // Ruta para admin con middleware de autenticación
 Route::get('/admin', function () {
     return view('admin');
 })->name('admin')->middleware('auth');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rutas para vistas específicas con nombres
 Route::get('/carrito', function () {
