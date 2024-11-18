@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('category'); // Categoría del producto
             $table->string('name'); // Nombre del producto
             $table->text('description'); // Descripción del producto
-            $table->decimal('price', 10, 2); // Precio con 2 decimales
+            $table->decimal('price', 10); 
             $table->string('image'); // Nombre de la imagen (.png)
             $table->timestamps(); // created_at y updated_at
         });

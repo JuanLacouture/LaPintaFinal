@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ asset('menu_restaurante/Header&Footer.css') }}">
     <link rel="stylesheet" href="{{ asset('menu_restaurante/CSS/carta.css') }}">
     <link rel="stylesheet" href="{{ asset('menu_restaurante/Scrollers.css') }}">
-    <script src="{{ asset('menu_restaurante/JAVASCRIPT/api.js') }}" defer></script>
     <script src="{{ asset('menu_restaurante/JAVASCRIPT/desplegable.js') }}" defer></script>
     <script src="{{ asset('menu_restaurante/JAVASCRIPT/Carta.js') }}" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -45,6 +44,21 @@
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('entradas-carousel', -300)">&#9664;</button>
                 <div class="carousel" id="entradas-carousel"></div>
+                @foreach ($products as $product)
+                @if ($product->category === 'Entradas')
+                <div class="plato">
+                            <img src="{{ asset('menu_restaurante/Imagenes/Menu/' . $product->image) }}" alt="{{ $product->name }}">
+                            <p class="precio">${{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="nombre"><strong>{{ $product->name }}</strong></p>
+                            <p class="descripcion">{{ $product->description }}</p>
+                            <button class="add-to-cart" onclick="toggleDesplegable()" 
+                                    data-product='{"id": {{ $product->id }}, "name": "{{ $product->name }}", "price": {{ $product->price }}, "image": "{{ $product->image }}" }'>
+                                Añadir al carrito
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
                 <button class="carousel-button right" onclick="scrollCarousel('entradas-carousel', 300)">&#9654;</button>
             </div>
         </div>
@@ -54,6 +68,21 @@
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('platos-fuertes-carousel', -300)">&#9664;</button>
                 <div class="carousel" id="platos-fuertes-carousel"></div>
+                @foreach ($products as $product)
+                    @if ($product->category === 'Platos Fuertes')
+                        <div class="plato">
+                            <img src="{{ asset('menu_restaurante/Imagenes/Menu/' . $product->image) }}" alt="{{ $product->name }}">
+                            <p class="precio">${{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="nombre"><strong>{{ $product->name }}</strong></p>
+                            <p class="descripcion">{{ $product->description }}</p>
+                            <button class="add-to-cart" onclick="toggleDesplegable()" 
+                                    data-product='{"id": {{ $product->id }}, "name": "{{ $product->name }}", "price": {{ $product->price }}, "image": "{{ $product->image }}" }'>
+                                Añadir al carrito
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+                </div>
                 <button class="carousel-button right" onclick="scrollCarousel('platos-fuertes-carousel', 300)">&#9654;</button>
             </div>
         </div>
@@ -63,6 +92,21 @@
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('bebidas-carousel', -300)">&#9664;</button>
                 <div class="carousel" id="bebidas-carousel"></div>
+                @foreach ($products as $product)
+                    @if ($product->category === 'Bebidas')
+                        <div class="plato">
+                            <img src="{{ asset('menu_restaurante/Imagenes/Menu/' . $product->image) }}" alt="{{ $product->name }}">
+                            <p class="precio">${{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="nombre"><strong>{{ $product->name }}</strong></p>
+                            <p class="descripcion">{{ $product->description }}</p>
+                            <button class="add-to-cart" onclick="toggleDesplegable()" 
+                                    data-product='{"id": {{ $product->id }}, "name": "{{ $product->name }}", "price": {{ $product->price }}, "image": "{{ $product->image }}" }'>
+                                Añadir al carrito
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+                </div>
                 <button class="carousel-button right" onclick="scrollCarousel('bebidas-carousel', 300)">&#9654;</button>
             </div>
         </div>
@@ -72,6 +116,21 @@
             <div class="carousel-container">
                 <button class="carousel-button left" onclick="scrollCarousel('postres-carousel', -300)">&#9664;</button>
                 <div class="carousel" id="postres-carousel"></div>
+                @foreach ($products as $product)
+                    @if ($product->category === 'Postres')
+                        <div class="plato">
+                            <img src="{{ asset('menu_restaurante/Imagenes/Menu/' . $product->image) }}" alt="{{ $product->name }}">
+                            <p class="precio">${{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="nombre"><strong>{{ $product->name }}</strong></p>
+                            <p class="descripcion">{{ $product->description }}</p>
+                            <button class="add-to-cart" onclick="toggleDesplegable()" 
+                                    data-product='{"id": {{ $product->id }}, "name": "{{ $product->name }}", "price": {{ $product->price }}, "image": "{{ $product->image }}" }'>
+                                Añadir al carrito
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+                </div>
                 <button class="carousel-button right" onclick="scrollCarousel('postres-carousel', 300)">&#9654;</button>
             </div>
         </div>
