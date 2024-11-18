@@ -22,6 +22,9 @@
             <p>Impuestos (IVA 19%): <span id="tax">$0</span></p>
             <p>Envío: <span id="shipping">-</span></p>
             <h3>Total de la orden: <span id="total">$0</span></h3>
+            <script>
+                const carritoUrl = "{{ route('carrito') }}";
+            </script>
             <button class="checkout-btn" onclick="finalizarCompra()">Finalizar compra</button>
         </div>
     </div>

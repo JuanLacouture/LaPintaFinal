@@ -62,6 +62,7 @@ h1::after {
     gap: 50px;
     scrollbar-width: none;
     -ms-overflow-style: none; 
+    width: 100%;
 }
 
 .carousel::-webkit-scrollbar { 
@@ -99,6 +100,8 @@ h1::after {
     position: relative; 
     transition: all 0.3s ease; 
     overflow: hidden; 
+    margin-left: 25px;
+    margin-right: 25px;
     margin-bottom: 20px;
     height: auto;
     flex-grow: 1;

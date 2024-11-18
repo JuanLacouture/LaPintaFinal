@@ -39,8 +39,10 @@
         <div id="cart-items" class="cart-items">
             <!-- Los elementos del carrito se insertarán aquí dinámicamente -->
         </div>
-
-        <button type="submit">Pagar</button>
+        <script>
+            const confirmacionUrl = "{{ route('confirmacion') }}";
+        </script>
+        <button type="submit" onclick="finalizarCompra()">Pagar</button>
     </form>
 
     <div id="order-summary"></div>

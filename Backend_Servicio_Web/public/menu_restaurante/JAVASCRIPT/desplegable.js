@@ -28,7 +28,12 @@ window.addEventListener('message', (event) => {
 
 
 function finalizarCompra() {
-  window.open("{{ route('carrito') }}", "_blank");
+  // Usa la variable global definida en el archivo Blade
+  if (typeof carritoUrl !== 'undefined') {
+    window.open(carritoUrl, "_blank");
+  } else {
+    console.error("URL de carrito no definida");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {

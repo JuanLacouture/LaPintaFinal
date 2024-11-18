@@ -68,13 +68,11 @@ async function enviarPedido() {
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
     }
-
     alert("¡Pedido enviado correctamente!");
-
-    window.location.href = "{{ route('confirmacion') }}";
+    window.open(confirmacionUrl, "_blank");
   } catch (error) {
     console.error("Error al enviar el pedido:", error);
-    window.location.href = "{{ route('confirmacion') }}";
+    window.location.href = confirmacionUrl;
     }
 }
 
