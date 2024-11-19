@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Renderiza los elementos del carrito
   function renderCart() {
-    cartContainer.innerHTML = ""; // Limpiar el contenedor del carrito
+    cartContainer.innerHTML = ""; // Limpia el contenedor del carrito
     let total = 0;
 
     if (cart.length === 0) {
@@ -20,25 +20,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cart.forEach((item) => {
-      // Actualiza la ruta de la imagen con el helper asset()
-      const imageUrl = `{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}`;
+      // Genera la ruta de la imagen y registra en la consola
+      let imageUrl = `/menu_restaurante/Imagenes/Menu/${item.image}`;
+      if (item.image.startsWith("Imagenes")) {
+        imageUrl = `/menu_restaurante/Imagenes/Menu/${item.image.replace("Imagenes", "")}`;
+      }
+      console.log(`Producto: ${item.name}, Ruta de imagen: ${imageUrl}`);
+
       const cartItem = document.createElement("div");
       cartItem.className = "cart-item";
 
       cartItem.innerHTML = `
-                <div class="product">
-                    <img class="lazyload" src="${imageUrl}" alt="${item.name}">
-                    <p>${item.name}</p>
-                </div>
-                <div class="quantity-container">
-                    <button class="minus" data-name="${item.name}">-</button>
-                    <input type="number" value="${item.quantity}" readonly>
-                    <button class="plus" data-name="${item.name}">+</button>
-                </div>
-                <div class="price-container">
-                    <p>$${(item.price * item.quantity).toLocaleString()}</p>
-                </div>
-            `;
+        <div class="product">
+          <img src="${imageUrl}" alt="${item.name}">
+          <p>${item.name}</p>
+        </div>
+        <div class="quantity-container">
+          <button class="minus" data-name="${item.name}">-</button>
+          <input type="number" value="${item.quantity}" readonly>
+          <button class="plus" data-name="${item.name}">+</button>
+        </div>
+        <div class="price-container">
+          <p>$${(item.price * item.quantity).toLocaleString()}</p>
+        </div>
+      `;
 
       cartContainer.appendChild(cartItem);
       total += item.price * item.quantity;
@@ -97,19 +102,18 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("&");
 
-      const paymentUrl = `${window.location.origin}/pago?${queryString}`;
+    const paymentUrl = `${window.location.origin}/pago?${queryString}`;
 
-      const paymentWindow = window.open(
-        paymentUrl,
-        "_blank",
-        "width=800,height=600"
-      );
-      if (paymentWindow) {
-        paymentWindow.focus();
-      } else {
-        alert("Permite las ventanas emergentes para continuar.");
-      }
-      
+    const paymentWindow = window.open(
+      paymentUrl,
+      "_blank",
+      "width=800,height=600"
+    );
+    if (paymentWindow) {
+      paymentWindow.focus();
+    } else {
+      alert("Permite las ventanas emergentes para continuar.");
+    }
   }
 
   // Listeners
@@ -126,4 +130,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 });
-

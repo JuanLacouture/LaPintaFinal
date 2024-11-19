@@ -42,45 +42,55 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function renderCartItems() {
   console.log("Renderizando elementos del carrito");
+
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
 
   if (!cartItemsContainer) {
-    console.error("No se encontró el contenedor de elementos del carrito");
-    return;
+      console.error("No se encontró el contenedor de elementos del carrito");
+      return;
   }
 
-  cartItemsContainer.innerHTML = ""; // Limpiar contenido previo
+  cartItemsContainer.innerHTML = ""; // Limpia el contenido previo
 
   if (cart.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
-  } else {
-    cart.forEach((item, index) => {
+      cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
+      return;
+  }
+
+  cart.forEach((item, index) => {
       const itemElement = document.createElement("div");
       itemElement.classList.add("item");
 
+      const imagePath = `/menu_restaurante/Imagenes/Menu/${item.image}`;
+      console.log(`Producto: ${item.name}, Ruta de imagen generada: ${imagePath}`);
+
       itemElement.innerHTML = `
-        <div class="item-details">
-            <img src="{{ asset('menu_restaurante/Imagenes/Menu') }}/${item.image}" alt="${item.name}">
-            <div>
-                <h2>${item.name}</h2>
-            </div>
-        </div>
-        <div class="item-price">
-            <p>${formatPrice(item.price * item.quantity)}</p>
-            <div class="quantity-control">
-                <button onclick="updateQuantity(${index}, -1)">-</button>
-                <span>${item.quantity}</span>
-                <button onclick="updateQuantity(${index}, 1)">+</button>
-            </div>
-            <a href="#" class="remove" onclick="removeItem(${index})">Eliminar</a>
-        </div>
+          <div class="item-details">
+              <img src="${imagePath}" alt="${item.name}">
+              <div>
+                  <h2>${item.name}</h2>
+              </div>
+          </div>
+          <div class="item-price">
+              <p>${formatPrice(item.price * item.quantity)}</p>
+              <div class="quantity-control">
+                  <button onclick="updateQuantity(${index}, -1)">-</button>
+                  <span>${item.quantity}</span>
+                  <button onclick="updateQuantity(${index}, 1)">+</button>
+              </div>
+              <a href="#" class="remove" onclick="removeItem(${index})">Eliminar</a>
+          </div>
       `;
       cartItemsContainer.appendChild(itemElement);
-    });
+  });
 
-    updateSummary();
-  }
+  updateSummary(); // Asegúrate de que esta función esté correctamente implementada
+}
+
+// Función auxiliar para formatear precios
+function formatPrice(price) {
+  return `$${price.toFixed(2)}`; // Si se requiere otro formato, ajusta aquí
 }
 
 function updateQuantity(index, delta) {
