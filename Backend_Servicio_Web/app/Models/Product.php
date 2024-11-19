@@ -19,4 +19,11 @@ class Product extends Model
         'price',
         'image',
     ];
+
+    public function ordenes()
+{
+    return $this->belongsToMany(Orden::class, 'detalles_orden')
+        ->withPivot('cantidad', 'precio_unitario')
+        ->withTimestamps();
+}
 }

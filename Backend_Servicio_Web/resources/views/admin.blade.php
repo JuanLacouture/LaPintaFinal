@@ -50,7 +50,32 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    @foreach ($ordenes as $orden)
+                            <tr>
+                                <td>{{ $orden->nombre }}</td>
+                                <td>{{ $orden->telefono }}</td>
+                                <td>{{ $orden->email }}</td>
+                                <td>{{ $orden->direccion }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($orden->productos as $producto)
+                                            <li>{{ $producto->nombre }} x{{ $producto->pivot->cantidad }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    <select onchange="cambiarEstado({{ $orden->id }}, this.value)" class="form-select">
+                                        <option value="Pendiente" {{ $orden->estado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                        <option value="Atendido" {{ $orden->estado == 'Atendido' ? 'selected' : '' }}>Atendido</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" onclick="eliminarOrden({{ $orden->id }})">Eliminar</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -60,5 +85,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('Frontend_Gestion_Pedidos/JAVASCRIPT/admin.js') }}"></script>
+    <script>
+        function cambiarEstado(ordenId, nuevoEstado) {
+            $.ajax({
+                url: `/admin/ordenes/${ordenId}/estado`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: { estado: nuevoEstado },
+                success: () => {
+                    alert('Estado actualizado correctamente');
+                },
+                error: () => {
+                    alert('Error al actualizar el estado');
+                }
+            });
+        }
+
+        function eliminarOrden(ordenId) {
+            if (confirm('¿Estás seguro de eliminar esta orden?')) {
+                $.ajax({
+                    url: `/admin/ordenes/${ordenId}`,
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    success: () => {
+                        alert('Orden eliminada correctamente');
+                        location.reload();
+                    },
+                    error: () => {
+                        alert('Error al eliminar la orden');
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>

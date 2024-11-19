@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrdenController;
 
 // Ruta principal
 Route::get('/', function () {
@@ -18,6 +19,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/admin', function () {
     return view('admin');
 })->name('admin')->middleware('auth');
+
+Route::post('/admin/ordenes/{id}/estado', [OrdenController::class, 'cambiarEstado']);
+Route::delete('/admin/ordenes/{id}', [OrdenController::class, 'eliminarOrden']);
+
+
+Route::post('/guardar-orden', [OrdenController::class, 'guardarOrden'])->name('guardar_orden');
+Route::get('/admin', [OrdenController::class, 'admin'])->name('admin')->middleware('auth');
+Route::post('/admin/ordenes/{id}/estado', [OrdenController::class, 'actualizarEstado']);
 
 // Ruta para mostrar la carta usando el controlador
 Route::get('/carta', [ProductController::class, 'showCarta'])->name('carta');

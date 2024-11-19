@@ -16,7 +16,8 @@
 <body>
     <img src="{{ asset('menu_restaurante/Imagenes/Home/LaPintaLogo.png') }}" alt="Imagen">
     <h1>Formulario de Pago</h1>
-    <form id="payment-form">
+    <form action="{{ route('guardar_orden') }}" method="POST" id="payment-form">
+        @csrf 
         <label for="name">Nombre Completo:</label>
         <input type="text" id="name" name="name" required>
 
@@ -50,5 +51,35 @@
         <ul id="item-list"></ul>
         <p id="total-amount"></p>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartItemsContainer = document.getElementById("cart-items");
+            const productosInput = document.getElementById("productos-input");
+            let totalAmount = 0;
+
+            // Renderizar productos en el carrito
+            cartItemsContainer.innerHTML = "";
+            cart.forEach(item => {
+                const itemElement = document.createElement("div");
+                itemElement.innerHTML = `
+                    <p><strong>${item.name}</strong> - Cantidad: ${item.quantity}</p>
+                    <p>Precio unitario: $${item.price.toFixed(2)}</p>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                totalAmount += item.price * item.quantity;
+            });
+
+            // Mostrar total en resumen
+            document.getElementById("total-amount").innerText = `Total: $${totalAmount.toFixed(2)}`;
+
+            // Pasar productos al input oculto
+            productosInput.value = JSON.stringify(cart.map(item => ({
+                id: item.id,
+                cantidad: item.quantity,
+                precio_unitario: item.price,
+            })));
+        });
+    </script>
 </body>
 </html>
