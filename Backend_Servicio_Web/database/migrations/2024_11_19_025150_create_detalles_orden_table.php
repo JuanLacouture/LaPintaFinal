@@ -9,13 +9,18 @@ class CreateDetallesOrdenTable extends Migration
     public function up()
     {
         Schema::create('detalles_orden', function (Blueprint $table) {
-            $table->id(); // Clave primaria
-            $table->foreignId('orden_id')->constrained('ordenes')->onDelete('cascade'); // Relación con ordenes
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Relación con products
-            $table->integer('cantidad'); // Cantidad de productos
-            $table->decimal('precio_unitario', 10, 2); // Precio unitario del producto
-            $table->timestamps(); // Timestamps
-        });
+            $table->id();
+            $table->unsignedBigInteger('orden_id'); // Mantener como bigint porque orden_id puede ser más grande
+            $table->unsignedInteger('product_id'); // Cambiar de unsignedBigInteger a unsignedInteger
+            $table->integer('cantidad');
+            $table->decimal('precio_unitario', 10, 2);
+            $table->timestamps();
+        
+            // Claves foráneas
+            $table->foreign('orden_id')->references('id')->on('ordenes')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+        });        
+        
     }
 
     public function down()
