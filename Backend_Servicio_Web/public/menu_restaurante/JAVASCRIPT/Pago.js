@@ -46,8 +46,10 @@ async function enviarPedido() {
       cantidad: item.quantity,
       precio_unitario: item.price,
     })),
-    totalPrice: totalCalculated, // Si lo necesitas para el backend
-  };  
+    totalPrice: totalCalculated,
+  };
+
+  console.log("Datos enviados:", orderDetails);
 
   // Guardar los detalles de la orden en localStorage para usarlos en confirmacion.js
   localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
