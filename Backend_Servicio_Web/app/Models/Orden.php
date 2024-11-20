@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orden extends Model
 {
-    use HasFactory;
+    // Indica explícitamente el nombre de la tabla
+    protected $table = 'ordenes';
 
-    protected $fillable = ['nombre', 'telefono', 'email', 'direccion', 'estado'];
+    // Campos que se pueden llenar
+    protected $fillable = ['nombre', 'telefono', 'email', 'direccion'];
 
+    // Relación con productos
     public function productos()
     {
         return $this->belongsToMany(Product::class, 'detalles_orden')

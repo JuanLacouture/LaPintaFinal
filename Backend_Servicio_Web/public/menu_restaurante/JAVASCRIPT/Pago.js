@@ -37,33 +37,32 @@ document.addEventListener("DOMContentLoaded", displayCartSummary);
 // Función para enviar el pedido al servicio web mediante POST
 async function enviarPedido() {
   const orderDetails = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("telefono").value,
+    nombre: document.getElementById("name").value,
+    telefono: document.getElementById("telefono").value,
     email: document.getElementById("email").value,
-    direction: document.getElementById("address").value,
-    products: cart.map((item) => ({
-      id: item.name, // Usar el nombre del plato como ID
-      price: item.price, // Usar 'price' en lugar de 'precio' para consistencia
-      quantity: item.quantity,
+    direccion: document.getElementById("address").value,
+    productos: cart.map((item) => ({
+      id: item.id,
+      cantidad: item.quantity,
+      precio_unitario: item.price,
     })),
-    totalPrice: totalCalculated,
-  };
+    totalPrice: totalCalculated, // Si lo necesitas para el backend
+  };  
 
   // Guardar los detalles de la orden en localStorage para usarlos en confirmacion.js
   localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
 
   try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxN3xWYeWPY2ucmpg59qjGBG5dUIqeuuRMah8gCiCfFWsKM12S2Dru68dNGK_CRD9ml/exec",
-      {
-        method: "POST",
-        redirect: "follow",
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-        },
-        body: JSON.stringify(orderDetails),
-      }
-    );
+    const response = await fetch("/guardar-orden", {
+      method: "POST",
+      redirect: "follow",
+      headers: {
+        "Content-Type": "application/json", // Cambiar de "text/plain" a "application/json"
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"), // Token CSRF
+      },
+      body: JSON.stringify(orderDetails),
+    });
+    
 
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
@@ -72,7 +71,7 @@ async function enviarPedido() {
     window.open(confirmacionUrl, "_blank");
   } catch (error) {
     console.error("Error al enviar el pedido:", error);
-    window.location.href = confirmacionUrl;
+    window.location.href = "/confirmacion";
     }
 }
 
