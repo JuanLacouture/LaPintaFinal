@@ -20,12 +20,13 @@ Route::get('/admin', function () {
     return view('admin');
 })->name('admin')->middleware('auth');
 
-Route::post('/admin/ordenes/{id}/estado', [OrdenController::class, 'cambiarEstado'])->name('ordenes.cambiarEstado');
-Route::get('/admin/ordenes', [OrdenController::class, 'listarOrdenes'])->name('ordenes.listar');
+Route::post('/admin/ordenes/{id}/estado', [OrdenController::class, 'cambiarEstado']);
 Route::delete('/admin/ordenes/{id}', [OrdenController::class, 'eliminarOrden']);
+
 
 Route::post('/guardar-orden', [OrdenController::class, 'guardarOrden'])->name('guardar_orden');
 Route::get('/admin', [OrdenController::class, 'admin'])->name('admin')->middleware('auth');
+Route::post('/admin/ordenes/{id}/estado', [OrdenController::class, 'actualizarEstado']);
 
 // Ruta para mostrar la carta usando el controlador
 Route::get('/carta', [ProductController::class, 'showCarta'])->name('carta');
