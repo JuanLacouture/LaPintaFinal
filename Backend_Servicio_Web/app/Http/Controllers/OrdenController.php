@@ -48,11 +48,37 @@ class OrdenController extends Controller
 
     public function cambiarEstado(Request $request, $id)
     {
-        $orden = Orden::findOrFail($id);
-        $orden->estado = $request->input('estado');
-        $orden->save();
+        try {
+            // Busca la orden
+            $orden = Orden::findOrFail($id);
 
-        return response()->json(['success' => true]);
+            // Valida el estado recibido
+            $request->validate([
+                'estado' => 'required|in:Pendiente,Atendido', // Solo permite estos valores
+            ]);
+
+            // Actualiza el estado
+            $orden->estado = $request->input('estado');
+            $orden->save();
+
+            return response()->json(['success' => true], 200); // Respuesta exitosa
+        } catch (\Exception $e) {
+            // Registra el error en los logs
+            Log::error('Error al actualizar el estado:', [
+                'id' => $id,
+                'estado' => $request->input('estado', 'no enviado'),
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json(['error' => 'No se pudo actualizar el estado'], 500); // Respuesta de error
+        }
+    }
+
+        public function listarOrdenes()
+    {
+        $ordenes = Orden::with('productos')->get();
+
+        return response()->json($ordenes);
     }
 
     public function eliminarOrden($id)

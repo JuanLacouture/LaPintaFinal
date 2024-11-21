@@ -1,25 +1,28 @@
 $(document).ready(function () {
-    // Datos simulados para la tabla de pedidos
-    const pedidos = [
-        { nombre: 'Juan Perez', numero: '123456789', email: 'juan@mail.com', direccion: 'Calle 123', productos: 'Pizza, Bebida', estado: 'Pendiente' },
-        { nombre: 'Maria Garcia', numero: '987654321', email: 'maria@mail.com', direccion: 'Avenida 456', productos: 'Ensalada, Jugo', estado: 'Atendido' },
-        { nombre: 'Carlos Lopez', numero: '555555555', email: 'carlos@mail.com', direccion: 'Carrera 789', productos: 'Hamburguesa, Cerveza', estado: 'Pendiente' }
-    ];
-
     // Inicializar DataTable
     const tablaPedidos = $('#tablaPedidos').DataTable({
-        data: pedidos,
+        ajax: '/admin/ordenes',
         columns: [
             { data: 'nombre' },
-            { data: 'numero' },
+            { data: 'telefono' },
             { data: 'email' },
             { data: 'direccion' },
-            { data: 'productos' },
+            {
+                data: 'productos',
+                render: function (data) {
+                    let productosHTML = '<ul>';
+                    data.forEach((producto) => {
+                        productosHTML += `<li>${producto.nombre} x${producto.cantidad}</li>`;
+                    });
+                    productosHTML += '</ul>';
+                    return productosHTML;
+                }
+            },
             {
                 data: 'estado',
-                render: function (data, type, row, meta) {
+                render: function (data, type, row) {
                     return `
-                        <select class="form-select estado-select">
+                        <select class="form-select estado-select" data-id="${row.id}">
                             <option value="Pendiente" ${data === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
                             <option value="Atendido" ${data === 'Atendido' ? 'selected' : ''}>Atendido</option>
                         </select>
@@ -29,8 +32,7 @@ $(document).ready(function () {
             {
                 data: null,
                 defaultContent: `
-                    <button class="btn btn-success btn-sm btn-view"><i class="fas fa-eye"></i> Ver</button>
-                    <button class="btn btn-warning btn-sm btn-edit"><i class="fas fa-edit"></i> Editar</button>
+                    <button class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Eliminar</button>
                 `
             }
         ],
@@ -39,45 +41,64 @@ $(document).ready(function () {
         }
     });
 
-    // Función de búsqueda personalizada
-    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-        const filtroEstado = $('#filterEstado').val();
-        const estado = data[5]; // La columna de "Estado" es la sexta columna (índice 5)
-
-        // Si el filtro está en "Todos", mostrar todas las filas
-        if (filtroEstado === 'Todos') {
-            return true;
-        }
-
-        // Filtrar solo las filas que coincidan con el estado seleccionado
-        return estado === filtroEstado;
-    });
-
     // Manejar el cambio de estado
     $('#tablaPedidos').on('change', '.estado-select', function () {
         const nuevoEstado = $(this).val();
+        const ordenId = $(this).data('id'); // ID de la orden asociado a la fila
+
+        $.ajax({
+            url: `/admin/ordenes/${ordenId}/estado`, // Asegúrate de que esta URL es correcta
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: { estado: nuevoEstado },
+            success: () => {
+                alert('Estado actualizado correctamente');
+                tablaPedidos.ajax.reload(); // Recargar la tabla
+            },
+            error: (xhr, status, error) => {
+                console.error('Error al actualizar el estado:', error);
+                alert('Error al actualizar el estado');
+            }
+        });
+    });
+
+    // Manejar la eliminación de órdenes
+    $('#tablaPedidos').on('click', '.btn-delete', function () {
         const fila = $(this).closest('tr');
         const data = tablaPedidos.row(fila).data();
+        const ordenId = data.id;
 
-        // Actualizar el estado en los datos de la fila
-        data.estado = nuevoEstado;
-
-        // Actualizar la fila en DataTables
-        tablaPedidos.row(fila).data(data).invalidate().draw();
-
-        alert(`El estado del pedido ha sido cambiado a ${nuevoEstado}`);
+        if (confirm('¿Estás seguro de que deseas eliminar esta orden?')) {
+            $.ajax({
+                url: `/admin/ordenes/${ordenId}`,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Token CSRF
+                },
+                success: () => {
+                    alert('Orden eliminada correctamente');
+                    tablaPedidos.ajax.reload(); // Recargar la tabla
+                },
+                error: (xhr, status, error) => {
+                    console.error('Error al eliminar la orden:', error);
+                    alert('Error al eliminar la orden');
+                }
+            });
+        }
     });
 
     // Manejar el filtro por estado
     $('#filterEstado').on('change', function () {
-        tablaPedidos.draw(); // Aplicar el filtro personalizado
+        tablaPedidos.column(5).search(this.value).draw(); // Filtrar por estado
     });
 
     // Manejar el clic en el botón de Logout
     $('#logoutBtn').on('click', () => {
         const confirmLogout = confirm("¿Estás seguro de que deseas cerrar sesión?");
         if (confirmLogout) {
-            window.location.href = "index.html";
+            window.location.href = "/logout";
         }
     });
 });
