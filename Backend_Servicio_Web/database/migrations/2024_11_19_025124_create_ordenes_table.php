@@ -14,6 +14,7 @@ class CreateOrdenesTable extends Migration
             $table->string('telefono'); // Teléfono del cliente
             $table->string('email'); // Email del cliente
             $table->text('direccion'); // Dirección del cliente
+            $table->decimal('total', 10, 2); // Agregar columna para el total
             $table->enum('estado', ['Pendiente', 'Atendido'])->default('Pendiente'); // Estado de la orden
             $table->timestamps(); // Timestamps
         });
