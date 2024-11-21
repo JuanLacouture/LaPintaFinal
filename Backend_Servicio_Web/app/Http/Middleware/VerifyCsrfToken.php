@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/guardar-orden',
+        '/admin/ordenes/*/estado',
     ];
     
 }
