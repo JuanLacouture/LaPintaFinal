@@ -20,7 +20,6 @@ class OrdenController extends Controller
                 'productos.*.id' => 'required|exists:products,id',
                 'productos.*.cantidad' => 'required|integer|min:1',
                 'productos.*.precio_unitario' => 'required|numeric|min:0',
-                'total' => $total, 
             ]);
 
             $orden = Orden::create([
