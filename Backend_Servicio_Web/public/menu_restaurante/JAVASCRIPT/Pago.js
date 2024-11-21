@@ -77,6 +77,13 @@ async function enviarPedido() {
     }
 }
 
+function finalizarCompra() {
+  console.log("Finalizar Compra Iniciada");
+  
+  // Aquí puedes realizar acciones previas al envío, como validaciones
+  enviarPedido(); // Llama a la función para enviar el pedido
+}
+
 // Manejador para el envío del formulario
 document
   .getElementById("payment-form")

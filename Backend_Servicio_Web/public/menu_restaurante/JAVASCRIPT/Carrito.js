@@ -102,6 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("&");
 
+    const total = parseFloat(
+      document.getElementById("total").textContent.replace(/[^0-9.]/g, "")
+    );  
+    
     const paymentUrl = `${window.location.origin}/pago?${queryString}`;
 
     const paymentWindow = window.open(

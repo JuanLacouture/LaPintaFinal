@@ -23,8 +23,10 @@ class OrdenController extends Controller
                 'total' => $total, 
             ]);
 
-            $orden = Orden::create($validated);
-
+            $orden = Orden::create([
+                'total' => $validated['total'], // Usa el total enviado desde el cliente
+            ]);
+            
             foreach ($validated['productos'] as $producto) {
                 $orden->productos()->attach($producto['id'], [
                     'cantidad' => $producto['cantidad'],
