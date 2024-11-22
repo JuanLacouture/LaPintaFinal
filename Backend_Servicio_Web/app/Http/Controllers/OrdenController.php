@@ -20,11 +20,17 @@ class OrdenController extends Controller
                 'productos.*.id' => 'required|exists:products,id',
                 'productos.*.cantidad' => 'required|integer|min:1',
                 'productos.*.precio_unitario' => 'required|numeric|min:0',
+                'total' => 'required|numeric|min:0',
             ]);
 
             $orden = Orden::create([
-                'total' => $validated['total'], // Usa el total enviado desde el cliente
+                'nombre' => $validated['nombre'],
+                'telefono' => $validated['telefono'],
+                'email' => $validated['email'],
+                'direccion' => $validated['direccion'],
+                'total' => $validated['total'], 
             ]);
+            
             
             foreach ($validated['productos'] as $producto) {
                 $orden->productos()->attach($producto['id'], [
