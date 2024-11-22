@@ -35,51 +35,53 @@ function displayCartSummary() {
 document.addEventListener("DOMContentLoaded", displayCartSummary);
 
 // Función para enviar el pedido al servicio web mediante POST
-function enviarPedido() {
-  // Captura de valores del formulario
-  const customerName = document.getElementById('nombre').value;
-  const customerPhone = document.getElementById('telefono').value;
-  const customerEmail = document.getElementById('email').value;
-  const customerAddress = document.getElementById('direccion').value;
+async function enviarPedido() {
+  const orderDetails = {
+    nombre: document.getElementById("name").value,
+    telefono: document.getElementById("telefono").value,
+    email: document.getElementById("email").value,
+    direccion: document.getElementById("address").value,
+    productos: cart.map((item) => ({
+      id: item.id,
+      cantidad: item.quantity,
+      precio_unitario: item.price,
+    })),
+    totalPrice: totalCalculated,
+  };
 
-  // Captura del carrito desde localStorage
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const total = cart.reduce((acc, item) => acc + item.precio_unitario * item.cantidad, 0); // Calcular total
+  console.log("Datos enviados:", orderDetails);
 
-  // Validar que los datos sean correctos antes de enviarlos
-  if (!customerName || !customerPhone || !customerEmail || !customerAddress) {
-      alert('Por favor, completa todos los campos.');
-      return;
-  }
+  // Guardar los detalles de la orden en localStorage para usarlos en confirmacion.js
+  localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
 
-  // Enviar datos al backend
-  fetch("/guardar-orden", {
-      method: 'POST',
+  try {
+    const response = await fetch("/guardar-orden", {
+      method: "POST",
+      redirect: "follow",
       headers: {
-          'Content-Type': 'application/json',
+        "Content-Type": "application/json", // Cambiar de "text/plain" a "application/json"
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"), // Token CSRF
       },
       body: JSON.stringify({
-          nombre: customerName,
-          telefono: customerPhone,
-          email: customerEmail,
-          direccion: customerAddress,
-          productos: cart,
-          total: total, // Incluir el total calculado
+        nombre: customerName,
+        telefono: customerPhone,
+        email: customerEmail,
+        direccion: customerAddress,
+        productos: cart,
+        total: total, // Agregar el total calculado
       }),
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.message) {
-          alert('Pedido enviado correctamente');
-          localStorage.removeItem('cart'); // Limpiar el carrito después de enviar
-      } else {
-          throw new Error(data.error || 'Error al enviar el pedido');
-      }
-  })
-  .catch(error => {
-      console.error('Error al enviar el pedido:', error);
-      alert('Error al enviar el pedido');
-  });
+    });
+    
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+    alert("¡Pedido enviado correctamente!");
+    window.open(confirmacionUrl, "_blank");
+  } catch (error) {
+    console.error("Error al enviar el pedido:", error);
+    window.location.href = "/confirmacion";
+    }
 }
 
 function finalizarCompra() {

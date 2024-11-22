@@ -23,6 +23,11 @@ class OrdenController extends Controller
                 'total' => 'required|numeric|min:0',
             ]);
 
+            // Calcular el total si no es enviado desde el cliente
+            $total = $validated['total'] ?? collect($validated['productos'])->reduce(function ($carry, $producto) {
+                return $carry + ($producto['cantidad'] * $producto['precio_unitario']);
+            }, 0);
+
             $orden = Orden::create([
                 'nombre' => $validated['nombre'],
                 'telefono' => $validated['telefono'],
