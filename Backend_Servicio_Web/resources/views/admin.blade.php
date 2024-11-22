@@ -46,6 +46,7 @@
                             <th>Email</th>
                             <th>Dirección</th>
                             <th>Productos</th>
+                            <th>Total</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -64,6 +65,7 @@
                                         @endforeach
                                     </ul>
                                 </td>
+                                <td>${{ number_format($orden->total, 2) }}</td> <!-- Mostrar el total -->
                                 <td>
                                     <select onchange="cambiarEstado({{ $orden->id }}, this.value)" class="form-select">
                                         <option value="Pendiente" {{ $orden->estado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>

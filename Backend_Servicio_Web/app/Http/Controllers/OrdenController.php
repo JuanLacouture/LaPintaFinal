@@ -79,7 +79,7 @@ class OrdenController extends Controller
         }
     }
 
-        public function listarOrdenes()
+    public function listarOrdenes()
     {
         $ordenes = Orden::with('productos')->get();
 

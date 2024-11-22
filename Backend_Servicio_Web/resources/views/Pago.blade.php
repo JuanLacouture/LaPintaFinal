@@ -20,16 +20,16 @@
     <form action="{{ route('guardar_orden') }}" method="POST" id="payment-form">
         @csrf 
         <label for="name">Nombre Completo:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" placeholder="Nombre" required>
 
         <label for="telefono">Telefono:</label>
-        <input type="telefono" id="telefono" name="telefono" required>
+        <input type="telefono" id="telefono" name="telefono" placeholder="Teléfono" required>
 
         <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
 
         <label for="address">Dirección:</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address" placeholder="Dirección" required>
 
         <label for="payment-method">Método de Pago:</label>
         <select id="payment-method" name="payment-method" required>
